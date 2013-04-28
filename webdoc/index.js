@@ -81,3 +81,10 @@ AppGenerator.prototype.componentJSON = function componentJSON() {
 AppGenerator.prototype.mainJS = function mainJS() {
     this.copy('main.js','public/js/main.js');
 };
+
+AppGenerator.prototype.backbone = function backbone() {
+    this.mkdir('public/js/app');
+    this.mkdir('public/js/app/views');
+    this.mkdir('public/js/app/collections');
+    this.mkdir('public/js/app/models');
+};

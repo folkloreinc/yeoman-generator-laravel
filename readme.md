@@ -5,7 +5,9 @@ Yeoman generator for laravel application
 ## Installation
 
 `git clone git://github.com/Folkloreatelier/yeoman-generator-laravel.git`
+
 `cd yeoman-generator-laravel`
+
 `sudo npm link`
 
 ## Usage

@@ -65,3 +65,15 @@ AppGenerator.prototype.gruntfile = function gruntfile() {
         projectHost : this.projectHost
     });
 };
+
+AppGenerator.prototype.packageJSON = function packageJSON() {
+    this.template('_package.json','package.json',{
+        projectHost : this.projectHost
+    });
+};
+
+AppGenerator.prototype.componentJSON = function componentJSON() {
+    this.template('_component.json','component.json',{
+        projectHost : this.projectHost
+    });
+};

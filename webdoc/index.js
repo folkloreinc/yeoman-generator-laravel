@@ -12,13 +12,7 @@ function AppGenerator(args, options, config) {
     yeoman.generators.Base.apply(this, arguments);
 
     this.on('end', function () {
-        if (options['skip-install']) {
-            console.log('\n\nI\'m all done. Just run ' + 'npm install & bower install --dev'.bold.yellow + ' to install the required dependencies.\n\n');
-        } else {
-            console.log('\n\nI\'m all done. Running ' + 'npm install & bower install'.bold.yellow + ' for you to install the required dependencies. If this fails, try running the command yourself.\n\n');
-            spawn(win32 ? 'cmd' : 'npm', [win32 ? '/c npm install' : 'install'], { stdio: 'inherit' });
-            spawn(win32 ? 'cmd' : 'bower', [win32 ? '/c bower install' : 'install'], { stdio: 'inherit' });
-        }
+        console.log('\n\nI\'m all done. Just run ' + 'npm install & bower install --dev'.bold.yellow + ' to install the required dependencies.\n\n');
     });
 
     this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
@@ -83,8 +77,5 @@ AppGenerator.prototype.mainJS = function mainJS() {
 };
 
 AppGenerator.prototype.backbone = function backbone() {
-    this.mkdir('public/js/app');
-    this.mkdir('public/js/app/views');
-    this.mkdir('public/js/app/collections');
-    this.mkdir('public/js/app/models');
+    this.directory('app','public/js/app');
 };

@@ -7,6 +7,8 @@ require.config({
 
         // Application Folders
         // -------------------
+        'app': 'app/app',
+        'router': 'app/router',
         'collections': 'app/collections',
         'models': 'app/models',
         'views': 'app/views',
@@ -14,18 +16,19 @@ require.config({
     },
     shim: {
         'underscore': {
-        	'exports': '_'
+            'exports': '_'
         },
-        'backbone_core': {
+        'backbone': {
             'deps': ['underscore', 'jquery'],
             'exports': 'Backbone'
         }
     }
 });
 
-require(['jquery','underscore','backbone'], function ($,_,Backbone) {
+require(['jquery','underscore','app'], function ($,_,App) {
 
     'use strict';
 
+    App.initialize();
 
 });

@@ -72,8 +72,8 @@ AppGenerator.prototype.packageJSON = function packageJSON() {
     });
 };
 
-AppGenerator.prototype.componentJSON = function componentJSON() {
-    this.template('_component.json','component.json',{
+AppGenerator.prototype.bowerJSON = function componentJSON() {
+    this.template('_bower.json','bower.json',{
         projectHost : this.projectHost
     });
 };

@@ -18,6 +18,7 @@ function AppGenerator(args, options, config) {
             console.log('\n\nI\'m all done. Running ' + 'npm install & bower install'.bold.yellow + ' for you to install the required dependencies. If this fails, try running the command yourself.\n\n');
             spawn(win32 ? 'cmd' : 'npm', [win32 ? '/c npm install' : 'install'], { stdio: 'inherit' });
             spawn(win32 ? 'cmd' : 'bower', [win32 ? '/c bower install' : 'install'], { stdio: 'inherit' });
+            spawn(win32 ? 'cmd' : 'composer', [win32 ? '/c composer install' : 'install'], { stdio: 'inherit' });
         }
     });
 
@@ -76,8 +77,4 @@ AppGenerator.prototype.bowerJSON = function componentJSON() {
     this.template('_bower.json','bower.json',{
         projectHost : this.projectHost
     });
-};
-
-AppGenerator.prototype.mainJS = function mainJS() {
-    this.copy('main.js','public/js/main.js');
 };

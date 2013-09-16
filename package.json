@@ -30,13 +30,17 @@
     "url": "git://github.com/Folkloreatelier/yeoman-generator-laravel.git"
   },
   "dependencies": {
-    "yeoman-generator": "~0.10.4",
-    "cheerio": "~0.10.6"
+    "yeoman-generator": "~0.13.1",
+    "cheerio": "~0.12.1"
+  },
+  "peerDependencies": {
+    "yo": ">=1.0.0-rc.1.1"
   },
   "devDependencies": {
    
   },
   "engines": {
-    "node": ">=0.8.0"
+    "node": ">=0.8.0",
+    "npm": ">=1.2.10"
   }
 }

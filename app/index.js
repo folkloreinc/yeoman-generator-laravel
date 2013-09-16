@@ -5,10 +5,7 @@ var spawn = require('child_process').spawn;
 var yeoman = require('yeoman-generator');
 var win32 = process.platform === 'win32';
 
-
-module.exports = AppGenerator;
-
-function AppGenerator(args, options, config) {
+var AppGenerator = module.exports = function Appgenerator(args, options, config) {
     yeoman.generators.Base.apply(this, arguments);
 
     this.on('end', function () {
@@ -32,7 +29,7 @@ AppGenerator.prototype.askFor = function askFor(name) {
     var cb = this.async();
 
     // welcome message
-    console.log('\n\n'+this.folklore.green);
+    console.log('\n\n'+this.folklore);
     console.log('Laravel Boilerplate');
     console.log('\n\n');
 

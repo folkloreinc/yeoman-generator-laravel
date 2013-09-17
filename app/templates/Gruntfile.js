@@ -1,40 +1,44 @@
-// Generated on 2013-03-22 using generator-webapp 0.1.5
+// Generated on <%%= (new Date).toISOString().split('T')[0] %> using <%%= pkg.name %> <%%= pkg.version %>
 'use strict';
 
 // # Globbing
 // for performance reasons we're only matching one level down:
 // 'test/spec/{,*/}*.js'
-// use this if you want to match all subfolders:
+// use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
 module.exports = function (grunt) {
-
     // show elapsed time at the end
     require('time-grunt')(grunt);
     // load all grunt tasks
     require('load-grunt-tasks')(grunt);
 
-    // configurable paths
-    var yeomanConfig = {
-        host: '<%= projectHost %>',
-        serverHost: '<%= projectHost %>.local.atelierfolklore.ca',
-        public: 'public',
-        application: 'application'
-    };
-
     grunt.initConfig({
-
-        yeoman: yeomanConfig,
-
+        // configurable paths
+        yeoman: {
+            host: '<%= projectHost %>',
+            serverHost: '<%= projectHost %>.local.atelierfolklore.ca',
+            public: 'public',
+            application: 'app'
+        },
         watch: {
             compass: {
                 files: ['<%%= yeoman.public %>/scss/{,*/}*.{scss,sass}'],
-                tasks: ['compass']
+                tasks: ['compass:server']
+            },
+            livereload: {
+                options: {
+                    livereload: 35729
+                },
+                files: [
+                    '<%%= yeoman.public %>/scss/*.scss'
+                ]
             }
         },
-        open: {
-            server: {
-                path: 'http://<%%= yeoman.serverHost %>'
+        open : {
+            server : {
+                path: 'http://<%%= yeoman.serverHost %>',
+                app: 'Google Chrome'
             }
         },
         jshint: {
@@ -44,34 +48,47 @@ module.exports = function (grunt) {
             all: [
                 'Gruntfile.js',
                 '<%%= yeoman.public %>/js/{,*/}*.js',
+                '<%%= yeoman.public %>/js/app/{,*/}*.js',
                 '!<%%= yeoman.public %>/js/vendor/*'
             ]
         },
         compass: {
             options: {
-                require: 'zurb-foundation',
                 sassDir: '<%%= yeoman.public %>/scss',
                 cssDir: '<%%= yeoman.public %>/css',
+                generatedImagesDir: '<%%= yeoman.public %>/img',
                 imagesDir: '<%%= yeoman.public %>/img',
                 javascriptsDir: '<%%= yeoman.public %>/js',
-                fontsDir: '<%%= yeoman.public %>/css/fonts',
+                fontsDir: '<%%= yeoman.public %>/fonts',
                 importPath: '<%%= yeoman.public %>/js/components',
-                relativeAssets: false,
-                raw: 'http_images_path = \'../img\'\nhttp_generated_images_path = \'../img\'\n'
+                httpImagesPath: '/img',
+                httpGeneratedImagesPath: '/img',
+                httpFontsPath: '/fonts',
+                relativeAssets: false
             },
-            dist: {}
+            dist: {
+                options: {
+                    generatedImagesDir: '<%%= yeoman.public %>/img'
+                }
+            },
+            server: {
+                options: {
+                    debugInfo: true
+                }
+            }
         },
         requirejs: {
             dist: {
+                // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
                 options: {
                     baseUrl: '<%%= yeoman.public %>/js',
-                    name: "main",
-                    out: "<%%= yeoman.public %>/js/main-build.js",
-                    mainConfigFile: "<%%= yeoman.public %>/js/main.js",
+                    name: 'main',
+                    out: '<%%= yeoman.public %>/js/main-build.js',
+                    mainConfigFile: '<%%= yeoman.public %>/js/main.js',
                     paths: {
-                        requireLib: "components/requirejs/require"
+                        requireLib: 'components/requirejs/require'
                     },
-                    include: "requireLib",
+                    include: 'requireLib',
                     preserveLicenseComments: false,
                     useStrict: true,
                     wrap: true
@@ -88,60 +105,67 @@ module.exports = function (grunt) {
                 }]
             }
         },
+        svgmin: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%%= yeoman.public %>/img',
+                    src: '{,*/}*.svg',
+                    dest: '<%%= yeoman.public %>/img'
+                }]
+            }
+        },
         cssmin: {
             dist: {
                 files: {
                     '<%%= yeoman.public %>/css/main.css': [
-                        '<%%= yeoman.public %>/css/{,*/}*.css'
+                        '<%%= yeoman.public %>/css/main.css'
                     ]
                 }
             }
         },
+        concurrent: {
+            server: [
+                'compass'
+            ],
+            dist: [
+                'compass',
+                'imagemin',
+                'svgmin'
+            ]
+        },
         bower: {
+            options: {
+                exclude: ['modernizr']
+            },
             all: {
                 rjsConfig: '<%%= yeoman.public %>/js/main.js'
             }
-        },
-        rsync: {
-            'dist': {
-                src: "./",
-                dest: "/www/<%%= yeoman.host %>/",
-                host: "www@server1.atelierfolklore.ca",
-                recursive: true,
-                syncDest: true
-            },
         }
-
     });
 
-    grunt.renameTask('regarde', 'watch');
+    grunt.loadNpmTasks('grunt-open');
 
     grunt.registerTask('server', function (target) {
         if (target === 'dist') {
-            return grunt.task.run(['build', 'open']);
+            return grunt.task.run(['build', 'connect:dist:keepalive']);
         }
 
         grunt.task.run([
-            'compass',
+            'concurrent:server',
             'open',
             'watch'
         ]);
     });
 
     grunt.registerTask('build', [
-        'compass:dist',
+        'concurrent:dist',
         'requirejs',
-        'imagemin',
         'cssmin'
     ]);
 
     grunt.registerTask('default', [
         'jshint',
         'build'
-    ]);
-
-    grunt.registerTask('deploy', [
-        'build',
-        'rsync'
     ]);
 };

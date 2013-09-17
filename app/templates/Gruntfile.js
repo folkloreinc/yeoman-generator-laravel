@@ -31,7 +31,10 @@ module.exports = function (grunt) {
                     livereload: 35729
                 },
                 files: [
-                    '<%%= yeoman.public %>/scss/*.scss'
+                    '<%= yeoman.public %>/scss/*.scss',
+                    '<%= yeoman.public %>/js/app/{,*/}*.js',
+                    '<%= yeoman.public %>/js/{,*/}*.js',
+                    '<%= yeoman.application %>/views/{,*/}*.php',
                 ]
             }
         },

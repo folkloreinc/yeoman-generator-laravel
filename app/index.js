@@ -45,6 +45,7 @@ var AppGenerator = module.exports = function Appgenerator(args, options, config)
 util.inherits(AppGenerator, yeoman.generators.NamedBase);
 
 AppGenerator.prototype.askFor = function askFor(name) {
+
     var cb = this.async();
 
     // welcome message
@@ -52,36 +53,42 @@ AppGenerator.prototype.askFor = function askFor(name) {
     console.log('Laravel Boilerplate');
     console.log('\n\n');
 
+    //Check if name is provided as an argument
+    var prompts = [];
     if(!name || !name.length) {
-        var prompts = [{
+        prompts.push({
             name: 'projectHost',
             message: 'What is the host of your project?'
-        },{
-            type: 'checkbox',
-            name: 'features',
-            message: 'What more would you like?',
-            choices: [{
-                name: 'Admin section',
-                value: 'admin',
-                checked: true
-            }]
-        }];
-
-        this.prompt(prompts, function (answers) {
-
-            this.projectHost = answers.projectHost.toLowerCase();
-
-            var features = answers.features;
-            function hasFeature(feat) { return features.indexOf(feat) !== -1; }
-
-            this.includeAdmin = hasFeature('admin');
-
-            cb();
-        }.bind(this));
+        });
     } else {
         this.projectHost = name;
-        cb();
     }
+
+    //Features prompt
+    prompts.push({
+        type: 'checkbox',
+        name: 'features',
+        message: 'What more would you like?',
+        choices: [{
+            name: 'Admin section',
+            value: 'admin',
+            checked: true
+        }]
+    });
+
+    //Prompt
+    this.prompt(prompts, function (answers) {
+
+        this.projectHost = answers.projectHost ? answers.projectHost.toLowerCase():this.projectHost;
+
+        var features = answers.features;
+        function hasFeature(feat) { return features.indexOf(feat) !== -1; }
+
+        this.includeAdmin = hasFeature('admin');
+
+        cb();
+
+    }.bind(this));
 };
 
 AppGenerator.prototype.fetchGit = function fetchGit() {

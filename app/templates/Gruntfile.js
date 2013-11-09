@@ -32,11 +32,15 @@ module.exports = function (grunt) {
                 },
                 files: [
                     '<%%= yeoman.public %>/scss/*.scss',
-                    '<%%= yeoman.public %>/js/app/{,*/}*.js',<% if (includeAdmin) { %>
-                    '<%%= yeoman.public %>/js/admin/{,*/}*.js',
-                    <% } %>
+                    '<%%= yeoman.public %>/js/app/{,*/}*.js',
                     '<%%= yeoman.public %>/js/{,*/}*.js',
                     '<%%= yeoman.application %>/views/{,*/}*.php',
+                    '<%%= yeoman.application %>/models/*.php',
+                    '<%%= yeoman.application %>/controllers/*.php'
+                    <% if (includeAdmin) { %>,
+                    '<%%= yeoman.public %>/js/admin/{,*/}*.js'
+                    '<%%= yeoman.application %>/views/admin/{,*/}*.php'
+                    <% } %>
                 ]
             }
         },

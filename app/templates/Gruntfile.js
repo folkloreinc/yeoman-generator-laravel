@@ -31,10 +31,12 @@ module.exports = function (grunt) {
                     livereload: 35729
                 },
                 files: [
-                    '<%= yeoman.public %>/scss/*.scss',
-                    '<%= yeoman.public %>/js/app/{,*/}*.js',
-                    '<%= yeoman.public %>/js/{,*/}*.js',
-                    '<%= yeoman.application %>/views/{,*/}*.php',
+                    '<%%= yeoman.public %>/scss/*.scss',
+                    '<%%= yeoman.public %>/js/app/{,*/}*.js',<% if (includeAdmin) { %>
+                    '<%%= yeoman.public %>/js/admin/{,*/}*.js',
+                    <% } %>
+                    '<%%= yeoman.public %>/js/{,*/}*.js',
+                    '<%%= yeoman.application %>/views/{,*/}*.php',
                 ]
             }
         },
@@ -96,7 +98,23 @@ module.exports = function (grunt) {
                     useStrict: true,
                     wrap: true
                 }
-            }
+            }<% if (includeAdmin) { %>,
+            admin: {
+                // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
+                options: {
+                    baseUrl: '<%%= yeoman.public %>/js',
+                    name: 'admin',
+                    out: '<%%= yeoman.public %>/js/admin-build.js',
+                    mainConfigFile: '<%%= yeoman.public %>/js/admin.js',
+                    paths: {
+                        requireLib: 'components/requirejs/require'
+                    },
+                    include: 'requireLib',
+                    preserveLicenseComments: false,
+                    useStrict: true,
+                    wrap: true
+                }
+            }<% } %>
         },
         imagemin: {
             dist: {
@@ -123,7 +141,13 @@ module.exports = function (grunt) {
                 files: {
                     '<%%= yeoman.public %>/css/main.css': [
                         '<%%= yeoman.public %>/css/main.css'
-                    ]
+                    ]<% if (includeAdmin) { %>,
+                    '<%%= yeoman.public %>/css/admin.css': [
+                        '<%%= yeoman.public %>/css/admin.css'
+                    ],
+                    '<%%= yeoman.public %>/css/editor.css': [
+                        '<%%= yeoman.public %>/css/editor.css'
+                    ]<% } %>
                 }
             }
         },

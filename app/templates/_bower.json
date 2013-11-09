@@ -7,7 +7,11 @@
     "jquery": "~1.9.1",
     "underscore": "~1.4.4",
     "backbone": "~1.0.0",
-    "requirejs-text": "~2.0.7"
+    "requirejs-text": "~2.0.7"<% if (includeAdmin) { %>,
+    "ckeditor": "git://github.com/ckeditor/ckeditor-releases.git#stable/standard",
+    "foundation": "~4.3.1",
+    "jquery-ui": "~1.10.3"
+    <% } %>
   },
   "devDependencies": {}
 }

@@ -13,9 +13,28 @@ var AppGenerator = module.exports = function Appgenerator(args, options, config)
             console.log('\n\nI\'m all done. Just run ' + 'npm install & bower install --dev' + ' to install the required dependencies.\n\n');
         } else {
             console.log('\n\nI\'m all done. Running ' + 'npm install & bower install' + ' for you to install the required dependencies. If this fails, try running the command yourself.\n\n');
-            spawn(win32 ? 'cmd' : 'npm', [win32 ? '/c npm install' : 'install'], { stdio: 'inherit' });
-            spawn(win32 ? 'cmd' : 'bower', [win32 ? '/c bower install' : 'install'], { stdio: 'inherit' });
-            spawn(win32 ? 'cmd' : 'composer', [win32 ? '/c composer install' : 'install'], { stdio: 'inherit' });
+
+            //NPM
+            spawn('npm', ['install'], { stdio: 'inherit' });
+
+            //Bower
+            spawn('bower', ['install'], { stdio: 'inherit' });
+
+            //Composer
+            var composer = spawn('composer', ['install'], { stdio: 'inherit' });
+            composer.on('close', function (code) {
+
+                //Publish assets
+                spawn('php', ['artisan','asset:publish','bkwld/croppa'], { stdio: 'inherit' });
+
+                //Publish config
+                spawn('php', ['artisan','config:publish','bkwld/croppa'], { stdio: 'inherit' });
+            });
+
+            //Permissions
+            spawn('chmod', ['-R','777','app/storage'], { stdio: 'inherit' });
+            spawn('chmod', ['-R','777','public/files'], { stdio: 'inherit' });
+            
         }
     });
 
@@ -37,14 +56,25 @@ AppGenerator.prototype.askFor = function askFor(name) {
         var prompts = [{
             name: 'projectHost',
             message: 'What is the host of your project?'
+        },{
+            type: 'checkbox',
+            name: 'features',
+            message: 'What more would you like?',
+            choices: [{
+                name: 'Admin section',
+                value: 'admin',
+                checked: true
+            }]
         }];
 
-        this.prompt(prompts, function (err, props) {
-            if (err) {
-                return this.emit('error', err);
-            }
+        this.prompt(prompts, function (answers) {
 
-            this.projectHost = props.projectHost.toLowerCase();
+            this.projectHost = answers.projectHost.toLowerCase();
+
+            var features = answers.features;
+            function hasFeature(feat) { return features.indexOf(feat) !== -1; }
+
+            this.includeAdmin = hasFeature('admin');
 
             cb();
         }.bind(this));
@@ -58,20 +88,22 @@ AppGenerator.prototype.fetchGit = function fetchGit() {
     this.tarball('https://github.com/folkloreatelier/yeoman-boilerplate-laravel/tarball/master', '.', this.async());
 };
 
+AppGenerator.prototype.fetchAdmin = function fetchAdmin() {
+    if(this.includeAdmin) {
+        this.tarball('https://github.com/folkloreatelier/yeoman-boilerplate-laravel-admin/tarball/master', '.', this.async());
+    } else {
+        return;
+    }
+};
+
 AppGenerator.prototype.gruntfile = function gruntfile() {
-    this.template('Gruntfile.js','Gruntfile.js',{
-        projectHost : this.projectHost
-    });
+    this.template('Gruntfile.js','Gruntfile.js');
 };
 
 AppGenerator.prototype.packageJSON = function packageJSON() {
-    this.template('_package.json','package.json',{
-        projectHost : this.projectHost
-    });
+    this.template('_package.json','package.json');
 };
 
 AppGenerator.prototype.bowerJSON = function componentJSON() {
-    this.template('_bower.json','bower.json',{
-        projectHost : this.projectHost
-    });
+    this.template('_bower.json','bower.json');
 };

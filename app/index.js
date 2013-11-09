@@ -29,11 +29,11 @@ var AppGenerator = module.exports = function Appgenerator(args, options, config)
 
                 //Publish config
                 spawn('php', ['artisan','config:publish','bkwld/croppa'], { stdio: 'inherit' });
-            });
 
-            //Permissions
-            spawn('chmod', ['-R','777','app/storage'], { stdio: 'inherit' });
-            spawn('chmod', ['-R','777','public/files'], { stdio: 'inherit' });
+                //Set permissions on Laravel folders
+                spawn('chmod', ['-R','777','app/storage'], { stdio: 'inherit' });
+                spawn('chmod', ['-R','777','public/files'], { stdio: 'inherit' });
+            });
             
         }
     });

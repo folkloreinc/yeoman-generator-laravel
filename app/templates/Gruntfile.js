@@ -36,8 +36,7 @@ module.exports = function (grunt) {
                     '<%%= yeoman.public %>/js/{,*/}*.js',
                     '<%%= yeoman.application %>/views/{,*/}*.php',
                     '<%%= yeoman.application %>/models/*.php',
-                    '<%%= yeoman.application %>/controllers/*.php'
-                    <% if (includeAdmin) { %>,
+                    '<%%= yeoman.application %>/controllers/*.php'<% if (includeAdmin) { %>,
                     '<%%= yeoman.public %>/js/admin/{,*/}*.js'
                     '<%%= yeoman.application %>/views/admin/{,*/}*.php'
                     <% } %>
@@ -58,7 +57,12 @@ module.exports = function (grunt) {
                 'Gruntfile.js',
                 '<%%= yeoman.public %>/js/{,*/}*.js',
                 '<%%= yeoman.public %>/js/app/{,*/}*.js',
-                '!<%%= yeoman.public %>/js/vendor/*'
+                '!<%%= yeoman.public %>/js/components/*',
+                '!<%%= yeoman.public %>/js/vendor/*',
+                '!<%%= yeoman.public %>/js/main-build.js'<% if (includeAdmin) { %>,
+                '!<%%= yeoman.public %>/js/admin-build.js',
+                '!<%%= yeoman.public %>/js/ckeditor_config.js'
+                <% } %>
             ]
         },
         compass: {

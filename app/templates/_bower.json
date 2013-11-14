@@ -9,7 +9,7 @@
     "backbone": "~1.0.0",
     "requirejs-text": "~2.0.7"<% if (includeAdmin) { %>,
     "ckeditor": "git://github.com/ckeditor/ckeditor-releases.git#stable/standard",
-    "foundation": "~4.3.1",
+    "sass-bootstrap": "~3.0.0",
     "jquery-ui": "~1.10.3"
     <% } %>
   },

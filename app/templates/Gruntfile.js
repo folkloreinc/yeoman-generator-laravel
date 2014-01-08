@@ -24,10 +24,36 @@ module.exports = function (grunt) {
         watch: {
             compass: {
                 files: [
-                    '<%%= yeoman.public %>/scss/{,*/}*.{scss,sass}'<% if (includeAdmin) { %>,
-                    '<%%= yeoman.public %>/scss/admin/{,*/}*.{scss,sass}'<% } %>
+                    '<%%= yeoman.public %>/scss/{,*/}*.{scss,sass}'
                 ],
-                tasks: ['compass:server'<% if (includeAdmin) { %>,'compass:admin'<% } %>]
+                tasks: ['compass:server']
+            },<% if (includeAdmin) { %>
+            compassAdmin: {
+                files: [
+                    '<%%= yeoman.public %>/scss/admin/{,*/}*.{scss,sass}'
+                ],
+                tasks: ['compass:admin']
+            },<% } %>
+            gruntfile: {
+                files: ['Gruntfile.js']
+            },
+            js: {
+                files: [
+                    '<%%= yeoman.public %>/js/{,*/}*.js',
+                    '<%%= yeoman.public %>/js/app/{,*/}*.js'<% if (includeAdmin) { %>,
+                    '<%%= yeoman.public %>/js/admin/{,*/}*.js'<% } %>,
+                    '!<%%= yeoman.public %>/js/components/*',
+                    '!<%%= yeoman.public %>/js/vendor/*'<% if (includeAdmin) { %>,
+                    '!<%%= yeoman.public %>/js/admin/vendor/*'<% } %>,
+                    '!<%%= yeoman.public %>/js/main.build.js'<% if (includeAdmin) { %>,
+                    '!<%%= yeoman.public %>/js/admin/ckeditor_config.js',
+                    '!<%%= yeoman.public %>/js/admin/main.build.js'
+                    <% } %>
+                ],
+                tasks: ['jshint'],
+                options: {
+                    livereload: true
+                }
             },
             livereload: {
                 options: {
@@ -35,6 +61,7 @@ module.exports = function (grunt) {
                 },
                 files: [
                     '<%%= yeoman.public %>/scss/{,*/}*.scss',
+                    '<%%= yeoman.public %>/img/{,*/}*.{gif,jpeg,jpg,png,svg,webp}',
                     '<%%= yeoman.public %>/js/app/{,*/}*.js'<% if (includeAdmin) { %>,
                     '<%%= yeoman.public %>/js/admin/{,*/}*.js'<% } %>,
                     '<%%= yeoman.public %>/js/{,*/}*.js',
@@ -44,21 +71,23 @@ module.exports = function (grunt) {
                     '<%%= yeoman.application %>/models/*.php',
                     '<%%= yeoman.application %>/controllers/*.php',
                     '<%%= yeoman.application %>/lang/{,*/}*.php'<% if (includeAdmin) { %>,
-                    '<%%= yeoman.public %>/js/admin/{,*/}*.js',
                     '<%%= yeoman.application %>/views/admin/{,*/}*.php'
                     <% } %>
                 ]
             }
         },
+
         open : {
             server : {
                 path: 'http://<%%= yeoman.serverHost %>',
                 app: 'Google Chrome'
             }
         },
+
         jshint: {
             options: {
-                jshintrc: '.jshintrc'
+                jshintrc: '.jshintrc',
+                reporter: require('jshint-stylish')
             },
             all: [
                 'Gruntfile.js',
@@ -69,10 +98,12 @@ module.exports = function (grunt) {
                 '!<%%= yeoman.public %>/js/vendor/*'<% if (includeAdmin) { %>,
                 '!<%%= yeoman.public %>/js/admin/vendor/*'<% } %>,
                 '!<%%= yeoman.public %>/js/main.build.js'<% if (includeAdmin) { %>,
+                '!<%%= yeoman.public %>/js/admin/ckeditor_config.js',
                 '!<%%= yeoman.public %>/js/admin/main.build.js'
                 <% } %>
             ]
         },
+
         compass: {
             options: {
                 sassDir: '<%%= yeoman.public %>/scss',
@@ -226,9 +257,7 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.loadNpmTasks('grunt-open');
-
-    grunt.registerTask('server', function (target) {
+    grunt.registerTask('serve', function (target) {
         if (target === 'dist') {
             return grunt.task.run(['build', 'connect:dist:keepalive']);
         }
@@ -238,6 +267,11 @@ module.exports = function (grunt) {
             'open',
             'watch'
         ]);
+    });
+
+    grunt.registerTask('server', function () {
+        grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
+        grunt.task.run(['serve']);
     });
 
     grunt.registerTask('build', function (target) {

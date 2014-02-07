@@ -25,10 +25,10 @@ var AppGenerator = module.exports = function Appgenerator(args, options, config)
             composer.on('close', function (code) {
 
                 //Publish assets
-                spawn('php', ['artisan','asset:publish','bkwld/croppa'], { stdio: 'inherit' });
+                spawn('php', ['artisan','asset:publish','folklore/image'], { stdio: 'inherit' });
 
                 //Publish config
-                spawn('php', ['artisan','config:publish','bkwld/croppa'], { stdio: 'inherit' });
+                spawn('php', ['artisan','config:publish','folklore/image'], { stdio: 'inherit' });
 
                 //Set permissions on Laravel folders
                 spawn('chmod', ['-R','777','app/storage'], { stdio: 'inherit' });

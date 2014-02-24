@@ -97,16 +97,44 @@ AppGenerator.prototype.askFor = function askFor(name) {
 };
 
 AppGenerator.prototype.fetchLaravel = function fetchLaravel() {
-    this.tarball('https://github.com/laravel/laravel/tarball/master', '.', this.async());
+
+    var cb = this.async();
+
+    this.remote('laravel', 'laravel', 'v4.1.18', function (err, remote) {
+        if (err) {
+            return cb(err);
+        }
+        remote.directory('.', '.');
+        cb();
+    });
 };
 
 AppGenerator.prototype.fetchBoilerplate = function fetchBoilerplate() {
-    this.tarball('https://github.com/folkloreatelier/yeoman-boilerplate-laravel/tarball/master', '.', this.async());
+
+    var cb = this.async();
+
+    this.remote('folkloreatelier', 'yeoman-boilerplate-laravel', 'master', function (err, remote) {
+        if (err) {
+            return cb(err);
+        }
+        remote.directory('.', '.');
+        cb();
+    });
 };
 
 AppGenerator.prototype.fetchAdmin = function fetchAdmin() {
     if(this.includeAdmin) {
-        this.tarball('https://github.com/folkloreatelier/yeoman-boilerplate-laravel-admin/tarball/master', '.', this.async());
+
+        var cb = this.async();
+
+        this.remote('folkloreatelier', 'yeoman-boilerplate-laravel-admin', 'master', function (err, remote) {
+            if (err) {
+                return cb(err);
+            }
+            remote.directory('.', '.');
+            cb();
+        });
+        
     } else {
         return;
     }

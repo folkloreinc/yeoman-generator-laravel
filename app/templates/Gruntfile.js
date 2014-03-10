@@ -282,7 +282,10 @@ module.exports = function (grunt) {
                 'requirejs:admin',
                 'cssmin:admin'
             ]);
-            if(target === 'admin') return;
+            if(target === 'admin') 
+            {
+                return;
+            }
         }
 
         grunt.task.run([

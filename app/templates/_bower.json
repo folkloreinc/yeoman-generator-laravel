@@ -11,7 +11,8 @@
     "ckeditor": "git://github.com/ckeditor/ckeditor-releases.git#standard/4.3.3",
     "sass-bootstrap": "~3.0.0",
     "jquery-ui": "~1.10.3",
-    "bootstrap-tokenfield": "~0.10.0"
+    "bootstrap-tokenfield": "~0.10.0",
+    "pickadate": "~3.4.0"
     <% } %>
   },
   "devDependencies": {}

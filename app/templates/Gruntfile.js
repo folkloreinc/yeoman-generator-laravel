@@ -13,9 +13,11 @@ module.exports = function (grunt) {
     // load all grunt tasks
     require('load-grunt-tasks')(grunt);
 
+    var mozjpeg = require('imagemin-mozjpeg');
+
     grunt.initConfig({
         // configurable paths
-        yeoman: {
+        config: {
             host: '<%= projectHost %>',
             serverHost: '<%= projectHost %>.local.atelierfolklore.ca',
             public: 'public',
@@ -24,13 +26,13 @@ module.exports = function (grunt) {
         watch: {
             compass: {
                 files: [
-                    '<%%= yeoman.public %>/scss/{,*/}*.{scss,sass}'
+            '<%%= config.public %>/scss/{,*/}*.{scss,sass}'
                 ],
                 tasks: ['compass:server']
             },<% if (includeAdmin) { %>
             compassAdmin: {
                 files: [
-                    '<%%= yeoman.public %>/scss/admin/{,*/}*.{scss,sass}'
+            '<%%= config.public %>/scss/admin/{,*/}*.{scss,sass}'
                 ],
                 tasks: ['compass:admin']
             },<% } %>
@@ -39,15 +41,15 @@ module.exports = function (grunt) {
             },
             js: {
                 files: [
-                    '<%%= yeoman.public %>/js/{,*/}*.js',
-                    '<%%= yeoman.public %>/js/app/{,*/}*.js'<% if (includeAdmin) { %>,
-                    '<%%= yeoman.public %>/js/admin/{,*/}*.js'<% } %>,
-                    '!<%%= yeoman.public %>/js/components/*',
-                    '!<%%= yeoman.public %>/js/vendor/*'<% if (includeAdmin) { %>,
-                    '!<%%= yeoman.public %>/js/admin/vendor/*'<% } %>,
-                    '!<%%= yeoman.public %>/js/main.build.js'<% if (includeAdmin) { %>,
-                    '!<%%= yeoman.public %>/js/admin/ckeditor_config.js',
-                    '!<%%= yeoman.public %>/js/admin/main.build.js'
+                    '<%%= config.public %>/js/{,*/}*.js',
+                    '<%%= config.public %>/js/app/{,*/}*.js'<% if (includeAdmin) { %>,
+                    '<%%= config.public %>/js/admin/{,*/}*.js'<% } %>,
+                    '!<%%= config.public %>/js/components/*',
+                    '!<%%= config.public %>/js/vendor/*'<% if (includeAdmin) { %>,
+                    '!<%%= config.public %>/js/admin/vendor/*'<% } %>,
+                    '!<%%= config.public %>/js/main.build.js'<% if (includeAdmin) { %>,
+                    '!<%%= config.public %>/js/admin/ckeditor_config.js',
+                    '!<%%= config.public %>/js/admin/main.build.js'
                     <% } %>
                 ],
                 tasks: ['jshint'],
@@ -60,18 +62,18 @@ module.exports = function (grunt) {
                     livereload: 35729
                 },
                 files: [
-                    '<%%= yeoman.public %>/scss/{,*/}*.scss',
-                    '<%%= yeoman.public %>/img/{,*/}*.{gif,jpeg,jpg,png,svg,webp}',
-                    '<%%= yeoman.public %>/js/app/{,*/}*.js'<% if (includeAdmin) { %>,
-                    '<%%= yeoman.public %>/js/admin/{,*/}*.js'<% } %>,
-                    '<%%= yeoman.public %>/js/{,*/}*.js',
-                    '!<%%= yeoman.public %>/js/main.build.js'<% if (includeAdmin) { %>,
-                    '!<%%= yeoman.public %>/js/admin/main.build.js'<% } %>,
-                    '<%%= yeoman.application %>/views/{,*/}*.php',
-                    '<%%= yeoman.application %>/models/*.php',
-                    '<%%= yeoman.application %>/controllers/*.php',
-                    '<%%= yeoman.application %>/lang/{,*/}*.php'<% if (includeAdmin) { %>,
-                    '<%%= yeoman.application %>/views/admin/{,*/}*.php'
+                    '<%%= config.public %>/scss/{,*/}*.scss',
+                    '<%%= config.public %>/img/{,*/}*.{gif,jpeg,jpg,png,svg,webp}',
+                    '<%%= config.public %>/js/app/{,*/}*.js'<% if (includeAdmin) { %>,
+                    '<%%= config.public %>/js/admin/{,*/}*.js'<% } %>,
+                    '<%%= config.public %>/js/{,*/}*.js',
+                    '!<%%= config.public %>/js/main.build.js'<% if (includeAdmin) { %>,
+                    '!<%%= config.public %>/js/admin/main.build.js'<% } %>,
+                    '<%%= config.application %>/views/{,*/}*.php',
+                    '<%%= config.application %>/models/*.php',
+                    '<%%= config.application %>/controllers/*.php',
+                    '<%%= config.application %>/lang/{,*/}*.php'<% if (includeAdmin) { %>,
+                    '<%%= config.application %>/views/admin/{,*/}*.php'
                     <% } %>
                 ]
             }
@@ -79,7 +81,7 @@ module.exports = function (grunt) {
 
         open : {
             server : {
-                path: 'http://<%%= yeoman.serverHost %>',
+                path: 'http://<%%= config.serverHost %>',
                 app: 'Google Chrome'
             }
         },
@@ -91,28 +93,28 @@ module.exports = function (grunt) {
             },
             all: [
                 'Gruntfile.js',
-                '<%%= yeoman.public %>/js/{,*/}*.js',
-                '<%%= yeoman.public %>/js/app/{,*/}*.js'<% if (includeAdmin) { %>,
-                '<%%= yeoman.public %>/js/admin/{,*/}*.js'<% } %>,
-                '!<%%= yeoman.public %>/js/components/*',
-                '!<%%= yeoman.public %>/js/vendor/*'<% if (includeAdmin) { %>,
-                '!<%%= yeoman.public %>/js/admin/vendor/*'<% } %>,
-                '!<%%= yeoman.public %>/js/main.build.js'<% if (includeAdmin) { %>,
-                '!<%%= yeoman.public %>/js/admin/ckeditor_config.js',
-                '!<%%= yeoman.public %>/js/admin/main.build.js'
+                '<%%= config.public %>/js/{,*/}*.js',
+                '<%%= config.public %>/js/app/{,*/}*.js'<% if (includeAdmin) { %>,
+                '<%%= config.public %>/js/admin/{,*/}*.js'<% } %>,
+                '!<%%= config.public %>/js/components/*',
+                '!<%%= config.public %>/js/vendor/*'<% if (includeAdmin) { %>,
+                '!<%%= config.public %>/js/admin/vendor/*'<% } %>,
+                '!<%%= config.public %>/js/main.build.js'<% if (includeAdmin) { %>,
+                '!<%%= config.public %>/js/admin/ckeditor_config.js',
+                '!<%%= config.public %>/js/admin/main.build.js'
                 <% } %>
             ]
         },
 
         compass: {
             options: {
-                sassDir: '<%%= yeoman.public %>/scss',
-                cssDir: '<%%= yeoman.public %>/css',
-                generatedImagesDir: '<%%= yeoman.public %>/img',
-                imagesDir: '<%%= yeoman.public %>/img',
-                javascriptsDir: '<%%= yeoman.public %>/js',
-                fontsDir: '<%%= yeoman.public %>/css/fonts',
-                importPath: '<%%= yeoman.public %>/js/components',
+                sassDir: '<%%= config.public %>/scss',
+                cssDir: '<%%= config.public %>/css',
+                generatedImagesDir: '<%%= config.public %>/img',
+                imagesDir: '<%%= config.public %>/img',
+                javascriptsDir: '<%%= config.public %>/js',
+                fontsDir: '<%%= config.public %>/css/fonts',
+                importPath: '<%%= config.public %>/js/components',
                 httpImagesPath: '/img',
                 httpGeneratedImagesPath: '/img',
                 httpFontsPath: '/css/fonts',
@@ -120,7 +122,7 @@ module.exports = function (grunt) {
             },
             dist: {
                 options: {
-                    generatedImagesDir: '<%%= yeoman.public %>/img'
+                    generatedImagesDir: '<%%= config.public %>/img'
                 }
             },
             server: {
@@ -130,13 +132,13 @@ module.exports = function (grunt) {
             }<% if (includeAdmin) { %>,
             admin: {
                 options: {
-                    sassDir: '<%%= yeoman.public %>/scss/admin',
-                    cssDir: '<%%= yeoman.public %>/css/admin',
-                    generatedImagesDir: '<%%= yeoman.public %>/img/admin',
-                    imagesDir: '<%%= yeoman.public %>/img/admin',
-                    javascriptsDir: '<%%= yeoman.public %>/js/admin',
-                    fontsDir: '<%%= yeoman.public %>/css/admin/fonts',
-                    importPath: '<%%= yeoman.public %>/js/components',
+                    sassDir: '<%%= config.public %>/scss/admin',
+                    cssDir: '<%%= config.public %>/css/admin',
+                    generatedImagesDir: '<%%= config.public %>/img/admin',
+                    imagesDir: '<%%= config.public %>/img/admin',
+                    javascriptsDir: '<%%= config.public %>/js/admin',
+                    fontsDir: '<%%= config.public %>/css/admin/fonts',
+                    importPath: '<%%= config.public %>/js/components',
                     httpImagesPath: '/img/admin',
                     httpGeneratedImagesPath: '/img/admin',
                     httpFontsPath: '/css/admin/fonts',
@@ -144,14 +146,84 @@ module.exports = function (grunt) {
                 }
             }<% } %>
         },
+        modernizr: {
+
+            dist: {
+                'devFile' : '<%%= config.public %>/js/components/modernizr/modernizr.js',
+                'outputFile' : '<%%= config.public %>/js/vendor/modernizr.js',
+                'extra' : {
+                    'shiv' : true,
+                    'printshiv' : false,
+                    'load' : true,
+                    'mq' : false,
+                    'cssclasses' : false
+                },
+                'extensibility' : {
+                    'addtest' : false,
+                    'prefixed' : false,
+                    'teststyles' : false,
+                    'testprops' : false,
+                    'testallprops' : false,
+                    'hasevents' : false,
+                    'prefixes' : false,
+                    'domprefixes' : false
+                },
+                'uglify' : true,
+                'tests' : [],
+                'parseFiles' : false,
+                'files' : {
+                    'src': [
+                        '<%%= config.public %>/js/{,*/}*.js',
+                        '<%%= config.public %>/js/app/{,*/}*.js',
+                        '<%%= config.public %>/css/{,*/}*.css',
+                        '!<%%= config.public %>/js/vendor/*'
+                    ]
+                },
+                'matchCommunityTests' : false,
+                'customTests' : []
+            }<% if (includeAdmin) { %>,
+            admin: {
+                'devFile' : '<%%= config.public %>/js/components/modernizr/modernizr.js',
+                'outputFile' : '<%%= config.public %>/js/admin/vendor/modernizr.js',
+                'extra' : {
+                    'shiv' : true,
+                    'printshiv' : false,
+                    'load' : true,
+                    'mq' : false,
+                    'cssclasses' : false
+                },
+                'extensibility' : {
+                    'addtest' : false,
+                    'prefixed' : false,
+                    'teststyles' : false,
+                    'testprops' : false,
+                    'testallprops' : false,
+                    'hasevents' : false,
+                    'prefixes' : false,
+                    'domprefixes' : false
+                },
+                'uglify' : true,
+                'tests' : [],
+                'parseFiles' : false,
+                'files' : {
+                    'src': [
+                        '<%%= config.public %>/js/admin/{,*/}*.js',
+                        '<%%= config.public %>/css/admin/{,*/}*.css',
+                        '!<%%= config.public %>/js/admin/vendor/*'
+                    ]
+                },
+                'matchCommunityTests' : false,
+                'customTests' : []
+            }<% } %>
+        },
         requirejs: {
             dist: {
                 // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
                 options: {
-                    baseUrl: '<%%= yeoman.public %>/js',
+                    baseUrl: '<%%= config.public %>/js',
                     name: 'main',
-                    out: '<%%= yeoman.public %>/js/main.build.js',
-                    mainConfigFile: '<%%= yeoman.public %>/js/main.js',
+                    out: '<%%= config.public %>/js/main.build.js',
+                    mainConfigFile: '<%%= config.public %>/js/main.js',
                     paths: {
                         requireLib: 'components/requirejs/require'
                     },
@@ -163,10 +235,10 @@ module.exports = function (grunt) {
             }<% if (includeAdmin) { %>,
             admin: {
                 options: {
-                    baseUrl: '<%%= yeoman.public %>/js',
+                    baseUrl: '<%%= config.public %>/js',
                     name: 'admin/main',
-                    out: '<%%= yeoman.public %>/js/admin/main.build.js',
-                    mainConfigFile: '<%%= yeoman.public %>/js/admin/main.js',
+                    out: '<%%= config.public %>/js/admin/main.build.js',
+                    mainConfigFile: '<%%= config.public %>/js/admin/main.js',
                     paths: {
                         requireLib: 'components/requirejs/require'
                     },
@@ -181,17 +253,17 @@ module.exports = function (grunt) {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: '<%%= yeoman.public %>/img',
+                    cwd: '<%%= config.public %>/img',
                     src: '{,*/}*.{png,jpg,jpeg}',
-                    dest: '<%%= yeoman.public %>/img'
+                    dest: '<%%= config.public %>/img'
                 }]
             }<% if (includeAdmin) { %>,
             admin: {
                 files: [{
                     expand: true,
-                    cwd: '<%%= yeoman.public %>/img/admin',
+                    cwd: '<%%= config.public %>/img/admin',
                     src: '{,*/}*.{png,jpg,jpeg}',
-                    dest: '<%%= yeoman.public %>/img/admin'
+                    dest: '<%%= config.public %>/img/admin'
                 }]
             }<% } %>
         },
@@ -199,35 +271,35 @@ module.exports = function (grunt) {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: '<%%= yeoman.public %>/img',
+                    cwd: '<%%= config.public %>/img',
                     src: '{,*/}*.svg',
-                    dest: '<%%= yeoman.public %>/img'
+                    dest: '<%%= config.public %>/img'
                 }]
             }<% if (includeAdmin) { %>,
             admin: {
                 files: [{
                     expand: true,
-                    cwd: '<%%= yeoman.public %>/img/admin',
+                    cwd: '<%%= config.public %>/img/admin',
                     src: '{,*/}*.svg',
-                    dest: '<%%= yeoman.public %>/img/admin'
+                    dest: '<%%= config.public %>/img/admin'
                 }]
             }<% } %>
         },
         cssmin: {
             dist: {
                 files: {
-                    '<%%= yeoman.public %>/css/main.css': [
-                        '<%%= yeoman.public %>/css/main.css'
+                    '<%%= config.public %>/css/main.css': [
+                        '<%%= config.public %>/css/main.css'
                     ]
                 }
             }<% if (includeAdmin) { %>,
             admin: {
                 files: {
-                    '<%%= yeoman.public %>/css/admin/main.css': [
-                        '<%%= yeoman.public %>/css/admin/main.css'
+                    '<%%= config.public %>/css/admin/main.css': [
+                        '<%%= config.public %>/css/admin/main.css'
                     ],
-                    '<%%= yeoman.public %>/css/admin/editor.css': [
-                        '<%%= yeoman.public %>/css/admin/editor.css'
+                    '<%%= config.public %>/css/admin/editor.css': [
+                        '<%%= config.public %>/css/admin/editor.css'
                     ]
                 }
             }<% } %>
@@ -252,7 +324,7 @@ module.exports = function (grunt) {
                 exclude: ['modernizr']
             },
             all: {
-                rjsConfig: '<%%= yeoman.public %>/js/main.js'
+                rjsConfig: '<%%= config.public %>/js/main.js'
             }
         }
     });
@@ -276,20 +348,24 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', function (target) {
 
+        <% if (includeAdmin) { %>
         if (target === 'all' || target === 'admin') {
             grunt.task.run([
                 'concurrent:admin',
+                'modernizr:admin',
                 'requirejs:admin',
                 'cssmin:admin'
             ]);
-            if(target === 'admin') 
+            if(target === 'admin')
             {
                 return;
             }
         }
+        <% } %>
 
         grunt.task.run([
             'concurrent:dist',
+            'modernizr:dist',
             'requirejs:dist',
             'cssmin:dist'
         ]);

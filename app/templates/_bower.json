@@ -4,7 +4,7 @@
   "dependencies": {
     "requirejs": "~2.1.14",
     "modernizr": "~2.8.2",
-    "jquery": "~2.1.1",
+    "jquery": "~1.9.0",
     "underscore": "~1.6.0",
     "backbone": "~1.1.2",
     "requirejs-text": "~2.0.12"<% if (includeAdmin) { %>,

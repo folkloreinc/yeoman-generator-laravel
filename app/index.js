@@ -70,7 +70,7 @@ AppGenerator.prototype.fetchLaravel = function fetchLaravel() {
 
     var cb = this.async();
 
-    this.remote('laravel', 'laravel', 'v4.1.18', function (err, remote) {
+    this.remote('laravel', 'laravel', 'v4.2.0', function (err, remote) {
         if (err) {
             return cb(err);
         }
@@ -104,7 +104,7 @@ AppGenerator.prototype.fetchAdmin = function fetchAdmin() {
             remote.directory('.', '.');
             cb();
         },true);
-        
+
     } else {
         return;
     }
@@ -234,5 +234,5 @@ AppGenerator.prototype._runCommands = function _runCommands(commands,cb) {
             }
         });
     }
-    
+
 };

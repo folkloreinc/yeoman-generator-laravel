@@ -26,15 +26,21 @@ module.exports = function (grunt) {
         watch: {
             compass: {
                 files: [
-            '<%%= config.public %>/scss/{,*/}*.{scss,sass}'
+                    '<%%= config.public %>/scss/{,*/}*.{scss,sass}'
                 ],
-                tasks: ['compass:server']
+                tasks: ['compass:server'],
+                options: {
+                    livereload: true
+                }
             },<% if (includeAdmin) { %>
             compassAdmin: {
                 files: [
-            '<%%= config.public %>/scss/admin/{,*/}*.{scss,sass}'
+                    '<%%= config.public %>/scss/admin/{,*/}*.{scss,sass}'
                 ],
-                tasks: ['compass:admin']
+                tasks: ['compass:admin'],
+                options: {
+                    livereload: true
+                }
             },<% } %>
             gruntfile: {
                 files: ['Gruntfile.js']
@@ -62,13 +68,7 @@ module.exports = function (grunt) {
                     livereload: 35729
                 },
                 files: [
-                    '<%%= config.public %>/scss/{,*/}*.scss',
                     '<%%= config.public %>/img/{,*/}*.{gif,jpeg,jpg,png,svg,webp}',
-                    '<%%= config.public %>/js/app/{,*/}*.js'<% if (includeAdmin) { %>,
-                    '<%%= config.public %>/js/admin/{,*/}*.js'<% } %>,
-                    '<%%= config.public %>/js/{,*/}*.js',
-                    '!<%%= config.public %>/js/main.build.js'<% if (includeAdmin) { %>,
-                    '!<%%= config.public %>/js/admin/main.build.js'<% } %>,
                     '<%%= config.application %>/views/{,*/}*.php',
                     '<%%= config.application %>/models/*.php',
                     '<%%= config.application %>/controllers/*.php',

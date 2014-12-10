@@ -4,7 +4,7 @@
   "dependencies": {
     "requirejs": "~2.1.15",
     "modernizr": "~2.8.3",
-    "jquery": "~2.1.1",
+    "jquery": "1.9.*",
     "underscore": "~1.7.0",
     "backbone": "~1.1.2",
     "requirejs-text": "~2.0.12"<% if (includeAdmin) { %>,
@@ -14,5 +14,8 @@
     "bootstrap-tokenfield": "~0.12.1"
     <% } %>
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "resolutions": {
+    "jquery": "1.9.*"
+  }
 }

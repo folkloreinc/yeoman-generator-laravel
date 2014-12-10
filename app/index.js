@@ -43,10 +43,6 @@ AppGenerator.prototype.askFor = function askFor(name) {
             name: 'Admin section',
             value: 'admin',
             checked: true
-        },{
-            name: 'Node server',
-            value: 'node',
-            checked: false
         }]
     });
 
@@ -59,7 +55,6 @@ AppGenerator.prototype.askFor = function askFor(name) {
         function hasFeature(feat) { return features.indexOf(feat) !== -1; }
 
         this.includeAdmin = hasFeature('admin');
-        this.includeNode = hasFeature('node');
 
         cb();
 
@@ -110,14 +105,6 @@ AppGenerator.prototype.fetchAdmin = function fetchAdmin() {
     }
 };
 
-AppGenerator.prototype.fetchNode = function fetchNode() {
-    if(this.includeNode) {
-        this.tarball('https://github.com/folkloreatelier/yeoman-boilerplate-laravel-admin/tarball/master', '.', this.async());
-    } else {
-        return;
-    }
-};
-
 AppGenerator.prototype.gruntfile = function gruntfile() {
     this.template('Gruntfile.js','Gruntfile.js');
 };
@@ -158,6 +145,12 @@ AppGenerator.prototype.installLaravel = function installLaravel() {
         'php artisan asset:publish folklore/image',
         'php artisan config:publish folklore/image'
     ];
+    
+    if(this.includeAdmin)
+    {
+        commands.push('php artisan config:publish folklore/pages');
+        commands.push('php artisan config:publish folklore/eloquent-picturable');
+    }
 
     if(this.options['skip-install-dependencies'] || this.options['skip-install-laravel']) {
         for(var i = 0; i < commands.length; i++) {
@@ -205,6 +198,26 @@ AppGenerator.prototype.buildAdminAssets = function buildAdminAssets() {
     if(this.options['skip-build-admin']) {
         for(var i = 0; i < commands.length; i++) {
             console.log('\n\nBuild admin assets:\n');
+            console.log(commands[i]+'\n');
+        }
+        return;
+    }
+
+    var cb = this.async();
+
+    this._runCommands(commands,cb);
+};
+
+AppGenerator.prototype.removeLaravelFile = function setPermissions() {
+
+    var commands = [
+        'rm -f app/views/hello.php',
+        'rm -f app/config/local/database.php'
+    ];
+
+    if(this.options['skip-remove-laravel-files']) {
+        for(var i = 0; i < commands.length; i++) {
+            console.log('\n\nRemove laravel files:\n');
             console.log(commands[i]+'\n');
         }
         return;

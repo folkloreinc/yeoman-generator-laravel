@@ -13,8 +13,6 @@ module.exports = function (grunt) {
     // load all grunt tasks
     require('load-grunt-tasks')(grunt);
 
-    var mozjpeg = require('imagemin-mozjpeg');
-
     grunt.initConfig({
         // configurable paths
         config: {
@@ -82,7 +80,7 @@ module.exports = function (grunt) {
         open : {
             server : {
                 path: 'http://<%%= config.serverHost %>',
-                app: 'Google Chrome'
+                app: app: (process.platform === 'win32') ? 'Chrome':'Google Chrome'
             }
         },
 

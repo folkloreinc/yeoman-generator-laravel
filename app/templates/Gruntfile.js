@@ -80,7 +80,7 @@ module.exports = function (grunt) {
         open : {
             server : {
                 path: 'http://<%%= config.serverHost %>',
-                app: app: (process.platform === 'win32') ? 'Chrome':'Google Chrome'
+                app: (process.platform === 'win32') ? 'Chrome':'Google Chrome'
             }
         },
 
